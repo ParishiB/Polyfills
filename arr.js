@@ -57,3 +57,47 @@ function callback(num) {
 
 const a = arr.myFilter(callback);
 console.log(a);
+
+// *********************************************************************
+// Polyfill for call apply bind
+
+Function.prototype.myCall = function (obj = {}, ...args) {
+  console.log(this);
+  if (typeof this != Function) {
+    throw new Error();
+  }
+  console.log(obj);
+  obj.fn = this;
+
+  obj.fn(...args);
+};
+
+
+// *********************************************************************
+
+Function.prototype.myapply = function (obj = {}, ...args) {
+  if (typeof this !== "function") {
+    throw new Error("not callable");
+  }
+
+  if (Array.isArray(...args)) {
+    throw new Error("TypeError: CraeteListFromArrayLike called on non-object");
+  }
+
+  obj.fn = this;
+  obj.fn(...args);
+};
+
+
+// *********************************************************************
+
+Function.prototype.mybind = function (obj = {}, ...args) {
+ if (typeof this !== "function") {
+    throw new Error("not callable");
+  }
+  obj.fn = this
+  return function(){
+    obj.fn(...args)
+  }
+  
+};
