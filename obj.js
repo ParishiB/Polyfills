@@ -152,3 +152,36 @@ const myConsole = {
 };
 
 myConsole.log("Hello world");
+
+
+/* Flatten a multi nested object for eg 
+
+let obj = {
+  a: 1,
+  b: {
+    c: 2,
+    d: {
+      e: 3,
+      f: {
+        g: 4,
+      },
+    },
+  },
+};
+*/
+
+function flatten(obj) {
+  const res = {};
+  for (let key in obj) {
+    if (typeof obj[key] === "object" && obj[key] !== null) {
+      for (let subKey in obj[key]) {
+        res[key + "." + subKey] = obj[key][subKey];
+      }
+    } else {
+      res[key] = obj[key];
+    }
+  }
+  return res;
+}
+
+flatten(obj);
